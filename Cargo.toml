@@ -1,0 +1,6 @@
+[package]
+name = "fire-emblem-clone"
+version = "0.1.0"
+authors = ["Hanbin Sock <hbsock@gmail.com>"]
+
+[dependencies]
