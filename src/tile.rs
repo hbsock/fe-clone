@@ -1,6 +1,7 @@
 #[derive(Clone)]
 pub enum TileType {
     Empty,
+    Plains,
 }
 
 #[derive(Clone)]
@@ -13,5 +14,9 @@ impl Tile {
         Tile {
             tile_type: tt,
         }
+    }
+
+    pub fn get_type(&self) -> &TileType {
+        &self.tile_type
     }
 }
