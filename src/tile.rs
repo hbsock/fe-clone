@@ -1,7 +1,7 @@
 #[derive(Clone)]
 pub enum TileType {
     Empty,
-    Plains,
+    //Plains,
 }
 
 #[derive(Clone)]

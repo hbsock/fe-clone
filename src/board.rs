@@ -20,12 +20,18 @@ impl Board {
     }
 
     pub fn get_tile_at(&self, x: usize, y: usize) -> Option<&Tile> {
-        if (x >= self.width || y >= self.height) {
+        if x >= self.width || y >= self.height {
             ()
         }
         
         Some(&self.tiles[x * y])
     }
+
+    /*
+    pub fn set_tile_at(&mut self, x: usize, y: usize, new_tile: Tile) {
+        
+    }
+    */
 }
 
 impl fmt::Display for Board {
@@ -36,18 +42,18 @@ impl fmt::Display for Board {
         // stream: `f`. Returns `fmt::Result` which indicates whether the
         // operation succeeded or failed. Note that `write!` uses syntax which
         // is very similar to `println!`.
-        
+
         for i in 0..self.height {
             for j in 0..self.width {
                 let tile = self.get_tile_at(i, j).unwrap();
                 
                 let t = match tile.get_type() {
                     &TileType::Empty => 'o',
-                    &TileType::Plains => '_',
+                    //&TileType::Plains => '_',
                 };
-                write!(f, "{}", t);
+                write!(f, "{}", t).expect("Could not write tile");
             }
-            write!(f, "\n");
+            write!(f, "\n").expect("Could not write new line");
         }
         
         Ok(())
