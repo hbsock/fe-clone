@@ -18,6 +18,14 @@ impl Board {
             ],
         }
     }
+
+    pub fn get_tile_at(&self, x: usize, y: usize) -> Option<&Tile> {
+        if (x >= self.width || y >= self.height) {
+            ()
+        }
+        
+        Some(&self.tiles[x * y])
+    }
 }
 
 impl fmt::Display for Board {
@@ -31,7 +39,8 @@ impl fmt::Display for Board {
         
         for i in 0..self.height {
             for j in 0..self.width {
-                let tile = &self.tiles[i * j];
+                let tile = self.get_tile_at(i, j).unwrap();
+                
                 let t = match tile.get_type() {
                     &TileType::Empty => 'o',
                     &TileType::Plains => '_',
@@ -40,16 +49,6 @@ impl fmt::Display for Board {
             }
             write!(f, "\n");
         }
-
-        /*
-        for tile in &self.tiles {
-            let t = match tile.get_type() {
-                &TileType::Empty => 'o',
-                &TileType::Plains => '_',
-            };
-            write!(f, "{}", t);
-        }
-        */
         
         Ok(())
     }
