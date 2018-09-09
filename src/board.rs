@@ -4,7 +4,7 @@ use tile::*;
 pub struct Board {
     width: usize,
     height: usize,
-    pub tiles: Vec<Tile>,
+    tiles: Vec<Tile>,
 }
 
 impl Board {
