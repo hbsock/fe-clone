@@ -10,7 +10,7 @@ use pong::Pong;
 use amethyst::prelude::*;
 use amethyst::renderer::{DisplayConfig, DrawFlat, Pipeline,
                          PosTex, RenderBundle, Stage};
-
+use amethyst::core::transform::TransformBundle;
 
 fn main() -> amethyst::Result<()> {
 
@@ -26,7 +26,10 @@ fn main() -> amethyst::Result<()> {
 			.with_pass(DrawFlat::<PosTex>::new()),
 	);
 
-	let game_data = GameDataBuilder::default().with_bundle(RenderBundle::new(pipe, Some(config)))?;
+	let game_data = GameDataBuilder::default()
+        .with_bundle(RenderBundle::new(pipe, Some(config)))?
+        .with_bundle(TransformBundle::new())?;
+
 	let mut game = Application::new("./", Pong, game_data)?;
 	game.run();
 	Ok(())
