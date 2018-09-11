@@ -3,6 +3,7 @@ extern crate amethyst;
 
 //mod tile;
 //mod board;
+mod systems;
 mod pong;
 
 use pong::Pong;
@@ -13,6 +14,7 @@ use amethyst::renderer::{DisplayConfig, DrawFlat, Pipeline,
 use amethyst::core::transform::TransformBundle;
 
 fn main() -> amethyst::Result<()> {
+
 
     // We'll put the rest of the code here.
 	amethyst::start_logger(Default::default());
@@ -26,11 +28,23 @@ fn main() -> amethyst::Result<()> {
 			.with_pass(DrawFlat::<PosTex>::new()),
 	);
 
+    use amethyst::input::InputBundle;
+
+	let binding_path = format!(
+		"{}/resources/bindings_config.ron",
+		env!("CARGO_MANIFEST_DIR")
+	);
+
+	let input_bundle = InputBundle::<String, String>::new().with_bindings_from_file(binding_path)?;
+
 	let game_data = GameDataBuilder::default()
-        .with_bundle(RenderBundle::new(pipe, Some(config)))?
-        .with_bundle(TransformBundle::new())?;
+		.with_bundle(TransformBundle::new())?
+		.with_bundle(RenderBundle::new(pipe, Some(config)))?
+		.with_bundle(input_bundle)?
+		.with(systems::PaddleSystem, "paddle_system", &["input_system"]); // Add this line
 
 	let mut game = Application::new("./", Pong, game_data)?;
 	game.run();
+
 	Ok(())
 }
