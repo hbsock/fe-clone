@@ -68,11 +68,13 @@ fn initialise_paddles(world: &mut World, spritesheet: TextureHandle) {
 
     let mut left_transform = Transform::default();
     let mut right_transform = Transform::default();
+    let mut mid_transform = Transform::default();
 
     // Correctly position the paddles.
     let y = ARENA_HEIGHT / 2.0;
     left_transform.translation = Vector3::new(PADDLE_WIDTH * 0.5, y, 0.0);
     right_transform.translation = Vector3::new(ARENA_WIDTH - PADDLE_WIDTH * 0.5, y, 0.0);
+    mid_transform.translation = Vector3::new(ARENA_WIDTH / 2.0 , y, 0.0);
 
 	const SPRITESHEET_SIZE: (f32, f32) = (8.0, 16.0);
 
@@ -89,11 +91,22 @@ fn initialise_paddles(world: &mut World, spritesheet: TextureHandle) {
 	// Create right plank entity.
 	world
 		.create_entity()
-		.with_sprite(&sprite, spritesheet, SPRITESHEET_SIZE)
+		.with_sprite(&sprite, spritesheet.clone(), SPRITESHEET_SIZE)
 		.expect("Failed to add sprite render on right paddle")
 		.with(Paddle::new(Side::Right))
 		.with(GlobalTransform::default())
 		.with(right_transform)
+		.build();
+
+
+	// Create a middle plank entity.
+	world
+		.create_entity()
+		.with_sprite(&sprite, spritesheet, SPRITESHEET_SIZE)
+		.expect("Failed to add sprite render on middle paddle")
+		.with(Paddle::new(Side::Left))
+		.with(GlobalTransform::default())
+		.with(mid_transform)
 		.build();
 }
 
