@@ -1,12 +1,20 @@
-use std::fmt; 
 use tile::*;
 
 use amethyst::input::{is_close_requested, is_key_down};
+use amethyst::core::cgmath::{Vector3, Matrix4};
+use amethyst::core::transform::{GlobalTransform, Transform};
 use amethyst::prelude::*;
 use amethyst::renderer::{
     Camera, Event, PngFormat, Projection, Sprite, Texture, TextureHandle,
     VirtualKeyCode, WithSpriteRender,
 };
+
+
+const ARENA_HEIGHT: f32 = 100.0;
+const ARENA_WIDTH: f32 = 100.0;
+const TILE_SPRITE_HEIGHT: f32 = 19.0;
+const TILE_SPRITE_WIDTH: f32 = 16.0;
+
 
 pub struct Board {
     width: usize,
@@ -41,33 +49,36 @@ impl Board {
     */
 }
 
-impl fmt::Display for Board {
 
-    // This trait requires `fmt` with this exact signature.
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // Write strictly the first element into the supplied output
-        // stream: `f`. Returns `fmt::Result` which indicates whether the
-        // operation succeeded or failed. Note that `write!` uses syntax which
-        // is very similar to `println!`.
 
-        for i in 0..self.height {
-            for j in 0..self.width {
-                let tile = self.get_tile_at(i, j).unwrap();
-                
-                let t = match tile.get_type() {
-                    &TileType::Empty => 'o',
-                    //&TileType::Plains => '_',
-                };
-                write!(f, "{}", t).expect("Could not write tile");
-            }
-            write!(f, "\n").expect("Could not write new line");
-        }
-        
-        Ok(())
-    }
+
+fn initialise_camera(world: &mut World) {
+    world.create_entity()
+        .with(Camera::from(Projection::orthographic(
+            0.0,
+            ARENA_WIDTH,
+            ARENA_HEIGHT,
+            0.0,
+        )))
+        .with(GlobalTransform(
+            Matrix4::from_translation(Vector3::new(0.0, 0.0, 1.0)).into()
+        ))
+        .build();
 }
 
+fn initialise_paddles(world: &mut World, spritesheet: TextureHandle) {
+    let sprite = Sprite {
+        left: 0.0,
+        right: TILE_SPRITE_WIDTH,
+        top: 0.0,
+        bottom: TILE_SPRITE_HEIGHT,
+    };
+}
+
+
 impl<'a, 'b> State<GameData<'a, 'b>> for Board {
+
+
     fn handle_event(&mut self, _: StateData<GameData>, event: Event) -> Trans<GameData<'a, 'b>> {
 
         if is_close_requested(&event) || is_key_down(&event, VirtualKeyCode::Escape) {
