@@ -1,6 +1,7 @@
 use tile::*;
 
 use amethyst::input::{is_close_requested, is_key_down};
+use amethyst::assets::{AssetStorage, Loader};
 use amethyst::core::cgmath::{Vector3, Matrix4};
 use amethyst::core::transform::{GlobalTransform, Transform};
 use amethyst::prelude::*;
@@ -66,13 +67,22 @@ fn initialise_camera(world: &mut World) {
         .build();
 }
 
-fn initialise_paddles(world: &mut World, spritesheet: TextureHandle) {
+fn initialise_board(world: &mut World, spritesheet: TextureHandle) {
     let sprite = Sprite {
         left: 0.0,
         right: TILE_SPRITE_WIDTH,
         top: 0.0,
         bottom: TILE_SPRITE_HEIGHT,
     };
+
+    
+    const SPRITESHEET_SIZE: (f32, f32) = (16.0, 19.0);
+	world
+        .create_entity()
+        .with_sprite(&sprite, spritesheet, SPRITESHEET_SIZE)
+        .expect("Failed to add tile")
+        .with(GlobalTransform::default())
+        .build();
 }
 
 
@@ -94,6 +104,22 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
     }
 
 	fn on_start(&mut self, data: StateData<GameData>) {
+        let world = data.world;
+        
+        let spritesheet = {
+            let loader = world.read_resource::<Loader>();
+            let texture_storage = world.read_resource::<AssetStorage<Texture>>();
+            loader.load(
+                "texture/empty_tile.png",
+                PngFormat,
+                Default::default(),
+                (),
+                &texture_storage,
+            )
+        };
+
+		initialise_board(world, spritesheet);
+        initialise_camera(world);
     }
 
 }
