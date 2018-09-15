@@ -35,6 +35,14 @@ impl Board {
         }
     }
 
+    pub fn get_height(&self) -> usize {
+        self.height
+    }
+
+    pub fn get_width(&self) -> usize {
+        self.width
+    }
+
     pub fn get_tile_at(&self, x: usize, y: usize) -> Option<&Tile> {
         if x >= self.width || y >= self.height {
             ()
