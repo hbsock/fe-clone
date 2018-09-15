@@ -75,22 +75,31 @@ fn initialise_camera(world: &mut World) {
         .build();
 }
 
-fn initialise_board(world: &mut World, spritesheet: TextureHandle) {
-    let sprite = Sprite {
-        left: 0.0,
-        right: TILE_SPRITE_WIDTH,
-        top: 0.0,
-        bottom: TILE_SPRITE_HEIGHT,
-    };
+
+fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board) {
 
     
     const SPRITESHEET_SIZE: (f32, f32) = (16.0, 19.0);
-	world
-        .create_entity()
-        .with_sprite(&sprite, spritesheet, SPRITESHEET_SIZE)
-        .expect("Failed to add tile")
-        .with(GlobalTransform::default())
-        .build();
+
+    for y in 0..board.get_height() {
+        for x in 0..board.get_width() {
+
+            let sprite = Sprite {
+                left: x as f32 * TILE_SPRITE_WIDTH,
+                right: (x + 1) as f32 * TILE_SPRITE_WIDTH,
+                top: y as f32 * TILE_SPRITE_HEIGHT,
+                bottom: (y + 1) as f32 * TILE_SPRITE_HEIGHT,
+            };
+
+            world
+                .create_entity()
+                .with_sprite(&sprite, spritesheet.clone(), SPRITESHEET_SIZE)
+                .expect("Failed to add tile")
+                .with(GlobalTransform::default())
+                .build();
+            
+        }
+    }
 }
 
 
@@ -126,8 +135,8 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
             )
         };
 
-		initialise_board(world, spritesheet);
         initialise_camera(world);
+        initialise_board(world, spritesheet, self);
     }
 
 }
