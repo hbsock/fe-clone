@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum TileType {
     Empty,
     //Plains,
@@ -16,7 +16,7 @@ impl Tile {
         }
     }
 
-    pub fn get_type(&self) -> &TileType {
-        &self.tile_type
+    pub fn get_type(&self) -> TileType {
+        self.tile_type.clone()
     }
 }

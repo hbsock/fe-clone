@@ -126,7 +126,7 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
         Trans::None
     }
 
-	fn on_start(&mut self, data: StateData<GameData>) {
+    fn on_start(&mut self, data: StateData<GameData>) {
         let world = data.world;
         
         let spritesheet = {
@@ -150,12 +150,27 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
 
 #[cfg(test)]
 mod tests {
-	use super::Board;
+    use super::*;
+    //use super::tile::*;
 
-	#[test]
-	fn test_init_board_dimensions() {
-		let b = Board::new(5,5);
-		assert_eq!(b.get_height(), 5);
-		assert_eq!(b.get_width(), 5);
-	}
+    #[test]
+    fn test_init_board_dimensions() {
+        let b = Board::new(5,5);
+        assert_eq!(b.get_height(), 5);
+        assert_eq!(b.get_width(), 5);
+    }
+
+    #[test]
+    fn test_init_board_initial_tiles() {
+        let b = Board::new(5,5);
+
+        for y in 0..b.get_height() {
+            for x in 0..b.get_width() {
+                assert_eq!(b.get_tile_at(x, y)
+                           .unwrap()
+                           .get_type(), 
+                           TileType::Empty);
+            }
+        }
+    }
 }
