@@ -145,4 +145,17 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
         initialise_board(world, spritesheet, self);
     }
 
+} 
+
+
+#[cfg(test)]
+mod tests {
+	use super::Board;
+
+	#[test]
+	fn test_init_board_dimensions() {
+		let b = Board::new(5,5);
+		assert_eq!(b.get_height(), 5);
+		assert_eq!(b.get_width(), 5);
+	}
 }
