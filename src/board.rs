@@ -80,22 +80,28 @@ fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board
 
     
     const SPRITESHEET_SIZE: (f32, f32) = (16.0, 19.0);
+    let sprite = Sprite {
+        left: 0.0,
+        right: TILE_SPRITE_WIDTH,
+        top: 0.0,
+        bottom: TILE_SPRITE_HEIGHT,
+    };
 
     for y in 0..board.get_height() {
         for x in 0..board.get_width() {
 
-            let sprite = Sprite {
-                left: x as f32 * TILE_SPRITE_WIDTH,
-                right: (x + 1) as f32 * TILE_SPRITE_WIDTH,
-                top: y as f32 * TILE_SPRITE_HEIGHT,
-                bottom: (y + 1) as f32 * TILE_SPRITE_HEIGHT,
-            };
+            let mut transform = Transform::default();
+            transform.translation = Vector3::new(
+                TILE_SPRITE_WIDTH * (0.5 + x as f32), 
+                TILE_SPRITE_HEIGHT * (0.5 + y as f32), 
+                0.0);
 
             world
                 .create_entity()
                 .with_sprite(&sprite, spritesheet.clone(), SPRITESHEET_SIZE)
                 .expect("Failed to add tile")
                 .with(GlobalTransform::default())
+                .with(transform)
                 .build();
             
         }
