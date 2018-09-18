@@ -6,7 +6,6 @@ mod board;
 mod systems;
 mod pong;
 
-//use pong::Pong;
 use board::Board;
 
 use amethyst::prelude::*;
@@ -36,7 +35,7 @@ fn main() -> amethyst::Result<()> {
 		env!("CARGO_MANIFEST_DIR")
 	);
 
-	let input_bundle = InputBundle::<String, String>::new().with_bindings_from_file(binding_path)?;
+	//let input_bundle = InputBundle::<String, String>::new().with_bindings_from_file(binding_path)?;
 
 	let game_data = GameDataBuilder::default()
 		.with_bundle(TransformBundle::new())?
@@ -44,7 +43,7 @@ fn main() -> amethyst::Result<()> {
 		//.with_bundle(input_bundle)?
 		//.with(systems::PaddleSystem, "paddle_system", &["input_system"]); // Add this line
 
-	let mut game = Application::new("./", Board::new(10, 10), game_data)?;
+	let mut game = Application::new("./", Board::new(15, 10), game_data)?;
 	game.run();
 
 	Ok(())
