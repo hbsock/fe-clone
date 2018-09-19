@@ -11,8 +11,6 @@ use amethyst::renderer::{
 };
 
 
-const ARENA_HEIGHT: f32 = 100.0;
-const ARENA_WIDTH: f32 = 100.0;
 const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
 
@@ -65,8 +63,8 @@ fn initialise_camera(world: &mut World) {
     world.create_entity()
         .with(Camera::from(Projection::orthographic(
             0.0,
-            ARENA_WIDTH,
-            ARENA_HEIGHT,
+            240.0,
+            190.0,
             0.0,
         )))
         .with(GlobalTransform(

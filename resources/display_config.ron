@@ -1,8 +1,8 @@
 (
   title: "Testing!",
-  dimensions: Some((500, 500)),
+  dimensions: Some((240, 190)),
   max_dimensions: None,
-  min_dimensions: None,
+  min_dimensions: Some((240, 190)),
   fullscreen: false,
   multisampling: 0,
   visibility: true,
