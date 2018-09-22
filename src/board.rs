@@ -13,6 +13,7 @@ use amethyst::renderer::{
 
 const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
+const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
 
 
 pub struct Board {
@@ -77,7 +78,6 @@ fn initialise_camera(world: &mut World) {
 fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board) {
 
     
-    const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
     let sprite = Sprite {
         left: 0.0,
         right: TILE_SPRITE_WIDTH,
