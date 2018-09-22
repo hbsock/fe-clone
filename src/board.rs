@@ -1,5 +1,6 @@
 use tile::*;
 
+use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::{is_close_requested, is_key_down};
 use amethyst::assets::{AssetStorage, Loader};
 use amethyst::core::cgmath::{Vector3, Matrix4};
@@ -15,6 +16,14 @@ const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
 const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
 
+pub struct Cursor {
+    pub x: usize,
+    pub y: usize,
+}
+
+impl Component for Cursor {
+    type Storage = DenseVecStorage<Self>;
+}
 
 pub struct Board {
     width: usize,
@@ -106,6 +115,33 @@ fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board
     }
 }
 
+fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Board) {
+
+    let sprite = Sprite {
+        left: 0.0,
+        right: TILE_SPRITE_WIDTH,
+        top: 0.0,
+        bottom: TILE_SPRITE_HEIGHT,
+    };
+
+    let mut transform = Transform::default();
+    transform.translation = Vector3::new(
+        TILE_SPRITE_WIDTH * 0.5, 
+        TILE_SPRITE_HEIGHT * 0.5, 
+        0.0);
+
+    let cursor = Cursor{ x: 0, y: 0 };
+
+    world
+        .create_entity()
+        .with_sprite(&sprite, spritesheet.clone(), SPRITESHEET_SIZE)
+        .expect("Failed to add cursor")
+		//.with(cursor)
+        .with(GlobalTransform::default())
+        .with(transform)
+        .build();
+}
+
 
 impl<'a, 'b> State<GameData<'a, 'b>> for Board {
 
@@ -139,8 +175,22 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
             )
         };
 
+        
+        let cursor_spritesheet = {
+            let loader = world.read_resource::<Loader>();
+            let texture_storage = world.read_resource::<AssetStorage<Texture>>();
+            loader.load(
+                "texture/cursor.png",
+                PngFormat,
+                Default::default(),
+                (),
+                &texture_storage,
+            )
+        };
+
         initialise_camera(world);
         initialise_board(world, spritesheet, self);
+        initialise_cursor(world, cursor_spritesheet, self);
     }
 
 } 
@@ -149,7 +199,6 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
 #[cfg(test)]
 mod tests {
     use super::*;
-    //use super::tile::*;
 
     #[test]
     fn test_init_board_dimensions() {
