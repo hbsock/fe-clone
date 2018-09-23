@@ -17,8 +17,8 @@ const TILE_SPRITE_WIDTH: f32 = 16.0;
 const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
 
 pub struct Cursor {
-    pub x: usize,
-    pub y: usize,
+    pub x: f32,
+    pub y: f32,
 }
 
 impl Component for Cursor {
@@ -130,13 +130,13 @@ fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Boar
         TILE_SPRITE_HEIGHT * 0.5, 
         0.0);
 
-    let cursor = Cursor{ x: 0, y: 0 };
+    let cursor = Cursor{ x: 0., y: 0. };
 
     world
         .create_entity()
         .with_sprite(&sprite, spritesheet.clone(), SPRITESHEET_SIZE)
         .expect("Failed to add cursor")
-		//.with(cursor)
+		.with(cursor)
         .with(GlobalTransform::default())
         .with(transform)
         .build();
@@ -162,6 +162,7 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
 
     fn on_start(&mut self, data: StateData<GameData>) {
         let world = data.world;
+        world.register::<Cursor>();
         
         let spritesheet = {
             let loader = world.read_resource::<Loader>();
