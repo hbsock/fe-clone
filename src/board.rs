@@ -11,6 +11,7 @@ use amethyst::renderer::{
     VirtualKeyCode, WithSpriteRender,
 };
 
+use png_loader;
 
 const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
@@ -164,30 +165,8 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
         let world = data.world;
         world.register::<Cursor>();
         
-        let spritesheet = {
-            let loader = world.read_resource::<Loader>();
-            let texture_storage = world.read_resource::<AssetStorage<Texture>>();
-            loader.load(
-                "texture/empty_tile.png",
-                PngFormat,
-                Default::default(),
-                (),
-                &texture_storage,
-            )
-        };
-
-        
-        let cursor_spritesheet = {
-            let loader = world.read_resource::<Loader>();
-            let texture_storage = world.read_resource::<AssetStorage<Texture>>();
-            loader.load(
-                "texture/cursor.png",
-                PngFormat,
-                Default::default(),
-                (),
-                &texture_storage,
-            )
-        };
+        let spritesheet = png_loader::load("texture/empty_tile.png", world);
+        let cursor_spritesheet = png_loader::load("texture/cursor.png", world);
 
         initialise_camera(world);
         initialise_board(world, spritesheet, self);

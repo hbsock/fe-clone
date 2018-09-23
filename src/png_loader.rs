@@ -1,0 +1,25 @@
+/// File is from the sprites example on the Amethyst Github page.
+
+use amethyst::assets::{AssetStorage, Loader};
+use amethyst::prelude::*;
+use amethyst::renderer::{PngFormat, Texture, TextureHandle};
+
+/// Returns a `TextureHandle` to the image.
+///
+/// # Parameters
+///
+/// * `name`: Path to the sprite sheet.
+/// * `world`: `World` that stores resources.
+pub fn load<N>(name: N, world: &World) -> TextureHandle
+where
+    N: Into<String>,
+{
+    let loader = world.read_resource::<Loader>();
+    loader.load(
+        name,
+        PngFormat,
+        Default::default(),
+        (),
+        &world.read_resource::<AssetStorage<Texture>>(),
+    )
+}

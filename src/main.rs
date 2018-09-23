@@ -3,8 +3,8 @@ extern crate amethyst;
 
 mod tile;
 mod board;
-mod systems;
-mod pong;
+//mod systems;
+mod png_loader;
 
 use board::Board;
 
