@@ -13,6 +13,8 @@ use amethyst::renderer::{
 
 use png_loader;
 
+const BOARD_HEIGHT: f32 = 190.0;
+const BOARD_WIDTH: f32 = 240.0;
 const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
 const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
@@ -74,8 +76,8 @@ fn initialise_camera(world: &mut World) {
     world.create_entity()
         .with(Camera::from(Projection::orthographic(
             0.0,
-            240.0,
-            190.0,
+            BOARD_WIDTH,
+            BOARD_HEIGHT,
             0.0,
         )))
         .with(GlobalTransform(
@@ -129,7 +131,7 @@ fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Boar
     transform.translation = Vector3::new(
         TILE_SPRITE_WIDTH * 0.5, 
         TILE_SPRITE_HEIGHT * 0.5, 
-        0.0);
+        1.0);
 
     let cursor = Cursor{ x: 0., y: 0. };
 
