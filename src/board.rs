@@ -2,12 +2,11 @@ use tile::*;
 
 use amethyst::ecs::prelude::{Component, DenseVecStorage};
 use amethyst::input::{is_close_requested, is_key_down};
-use amethyst::assets::{AssetStorage, Loader};
-use amethyst::core::cgmath::{Vector3, Matrix4};
+use amethyst::core::cgmath::{Vector3, Matrix4, Ortho};
 use amethyst::core::transform::{GlobalTransform, Transform};
 use amethyst::prelude::*;
 use amethyst::renderer::{
-    Camera, Event, PngFormat, Projection, Sprite, Texture, TextureHandle,
+    Camera, Event, Projection, Sprite, TextureHandle,
     VirtualKeyCode, WithSpriteRender,
 };
 
@@ -74,12 +73,14 @@ impl Board {
 
 fn initialise_camera(world: &mut World) {
     world.create_entity()
-        .with(Camera::from(Projection::orthographic(
-            0.0,
-            BOARD_WIDTH,
-            BOARD_HEIGHT,
-            0.0,
-        )))
+        .with(Camera::from(Projection::Orthographic(Ortho {
+            left: 0.0,
+            right: BOARD_WIDTH,
+            top: BOARD_HEIGHT,
+            bottom: 0.0,
+            near: 0.0,
+            far: ::std::f32::MAX,
+		})))
         .with(GlobalTransform(
             Matrix4::from_translation(Vector3::new(0.0, 0.0, 1.0)).into()
         ))
