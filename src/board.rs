@@ -18,6 +18,9 @@ const TILE_SPRITE_HEIGHT: f32 = 19.0;
 const TILE_SPRITE_WIDTH: f32 = 16.0;
 const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
 
+const TILE_DEPTH: f32 = 0.0;
+const CURSOR_DEPTH: f32 = 2.0;
+
 pub struct Cursor {
     pub x: f32,
     pub y: f32,
@@ -105,7 +108,7 @@ fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board
             transform.translation = Vector3::new(
                 TILE_SPRITE_WIDTH * (0.5 + x as f32), 
                 TILE_SPRITE_HEIGHT * (0.5 + y as f32), 
-                0.0);
+                TILE_DEPTH);
 
             world
                 .create_entity()
@@ -132,7 +135,7 @@ fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Boar
     transform.translation = Vector3::new(
         TILE_SPRITE_WIDTH * 0.5, 
         TILE_SPRITE_HEIGHT * 0.5, 
-        1.0);
+        CURSOR_DEPTH);
 
     let cursor = Cursor{ x: 0., y: 0. };
 
