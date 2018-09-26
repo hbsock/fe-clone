@@ -30,6 +30,12 @@ impl Component for Cursor {
     type Storage = DenseVecStorage<Self>;
 }
 
+impl Cursor { 
+    pub fn new() -> Cursor {
+        Cursor { x: 0.0, y: 0.0 }
+    }
+}
+
 pub struct Board {
     width: usize,
     height: usize,
@@ -137,7 +143,7 @@ fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Boar
         TILE_SPRITE_HEIGHT * 0.5, 
         CURSOR_DEPTH);
 
-    let cursor = Cursor{ x: 0., y: 0. };
+    let cursor = Cursor::new();
 
     world
         .create_entity()
