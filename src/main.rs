@@ -3,7 +3,7 @@ extern crate amethyst;
 
 mod tile;
 mod board;
-//mod systems;
+mod systems;
 mod png_loader;
 
 use board::Board;
@@ -40,8 +40,8 @@ fn main() -> amethyst::Result<()> {
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
         .with_bundle(RenderBundle::new(pipe, Some(config)))?
-        .with_bundle(input_bundle)?;
-        //.with(systems::PaddleSystem, "paddle_system", &["input_system"]); // Add this line
+        .with_bundle(input_bundle)?
+        .with(systems::CursorSystem, "cursor_system", &["input_system"]); // Add this line
 
     let mut game = Application::new("./", Board::new(10, 10), game_data)?;
     game.run();

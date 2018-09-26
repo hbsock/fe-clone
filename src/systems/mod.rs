@@ -1,4 +1,3 @@
-mod paddle;
+mod cursor;
 
-pub use self::paddle::PaddleSystem;
-
+pub use self::cursor::CursorSystem;
