@@ -43,7 +43,7 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with(systems::CursorSystem, "cursor_system", &["input_system"]); // Add this line
 
-    let mut game = Application::new("./", Board::new(10, 10), game_data)?;
+    let mut game = Application::new("./", Board::new(15, 10), game_data)?;
     game.run();
 
     Ok(())
