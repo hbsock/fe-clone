@@ -12,9 +12,9 @@ use amethyst::renderer::{
 
 use png_loader;
 
-const BOARD_HEIGHT: f32 = 190.0;
+pub const BOARD_HEIGHT: f32 = 190.0;
 pub const BOARD_WIDTH: f32 = 240.0;
-const TILE_SPRITE_HEIGHT: f32 = 19.0;
+pub const TILE_SPRITE_HEIGHT: f32 = 19.0;
 pub const TILE_SPRITE_WIDTH: f32 = 16.0;
 
 const SPRITESHEET_SIZE: (f32, f32) = (TILE_SPRITE_WIDTH, TILE_SPRITE_HEIGHT);
@@ -129,7 +129,7 @@ fn initialise_board(world: &mut World, spritesheet: TextureHandle, board: &Board
     }
 }
 
-fn initialise_cursor(world: &mut World, spritesheet: TextureHandle, board: &Board) {
+fn initialise_cursor(world: &mut World, spritesheet: TextureHandle) {
 
     let sprite = Sprite {
         left: 0.0,
@@ -183,7 +183,7 @@ impl<'a, 'b> State<GameData<'a, 'b>> for Board {
 
         initialise_camera(world);
         initialise_board(world, spritesheet, self);
-        initialise_cursor(world, cursor_spritesheet, self);
+        initialise_cursor(world, cursor_spritesheet);
     }
 
 } 

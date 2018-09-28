@@ -5,7 +5,9 @@ use amethyst::input::InputHandler;
 use board::{
     Cursor, 
     BOARD_WIDTH, 
-    TILE_SPRITE_WIDTH
+    BOARD_HEIGHT,
+    TILE_SPRITE_WIDTH,
+    TILE_SPRITE_HEIGHT,
 };
 
 pub struct CursorSystem;
@@ -24,6 +26,13 @@ impl<'s> System<'s> for CursorSystem {
             transform.translation[0] = (transform.translation[0] + (x_move as f32 * TILE_SPRITE_WIDTH))
                 .min(BOARD_WIDTH - TILE_SPRITE_WIDTH * 0.5)
                 .max(TILE_SPRITE_WIDTH * 0.5);
+
+        }
+
+        if let Some(y_move) = input.axis_value("cursor_vertical") {
+            transform.translation[1] = (transform.translation[1] + (y_move as f32 * TILE_SPRITE_HEIGHT))
+                .min(BOARD_HEIGHT - TILE_SPRITE_HEIGHT * 0.5)
+                .max(TILE_SPRITE_HEIGHT * 0.5);
 
         }
     }
