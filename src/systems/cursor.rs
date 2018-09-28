@@ -2,7 +2,8 @@ use amethyst::core::Transform;
 use amethyst::ecs::{Join, Read, ReadStorage, System, WriteStorage};
 use amethyst::input::InputHandler;
 
-use board::{Cursor, 
+use board::{
+    Cursor, 
     BOARD_WIDTH, 
     TILE_SPRITE_WIDTH
 };
@@ -20,10 +21,7 @@ impl<'s> System<'s> for CursorSystem {
 
     for (cursor, transform) in (&cursors, &mut transforms).join() {
         if let Some(x_move) = input.axis_value("cursor_horizontal") {
-            //println!("X move is: {}", x_move);
-            //println!("X translation is {}", transform.translation[0]);
-
-            transform.translation[0] = (transform.translation[0] + x_move as f32)
+            transform.translation[0] = (transform.translation[0] + (x_move as f32 * TILE_SPRITE_WIDTH))
                 .min(BOARD_WIDTH - TILE_SPRITE_WIDTH * 0.5)
                 .max(TILE_SPRITE_WIDTH * 0.5);
 
