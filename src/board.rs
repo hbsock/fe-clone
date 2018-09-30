@@ -8,6 +8,7 @@ use amethyst::prelude::*;
 use amethyst::renderer::{
     Camera, Event, Projection, Sprite, TextureHandle,
     VirtualKeyCode, WithSpriteRender,
+    Transparent,
 };
 
 use png_loader;
@@ -153,6 +154,7 @@ fn initialise_cursor(world: &mut World, spritesheet: TextureHandle) {
 		.with(cursor)
         .with(GlobalTransform::default())
         .with(transform)
+        //.with(Transparent)
         .build();
 }
 

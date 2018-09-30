@@ -9,8 +9,10 @@ mod png_loader;
 use board::Board;
 
 use amethyst::prelude::*;
-use amethyst::renderer::{DisplayConfig, DrawFlat, Pipeline,
-                         PosTex, RenderBundle, Stage};
+use amethyst::renderer::{
+    DisplayConfig, DrawFlat, Pipeline,
+    PosTex, RenderBundle, Stage,
+};
 use amethyst::core::transform::TransformBundle;
 
 fn main() -> amethyst::Result<()> {
