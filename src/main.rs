@@ -8,12 +8,21 @@ mod png_loader;
 
 use board::Board;
 
-use amethyst::prelude::*;
-use amethyst::renderer::{
-    DisplayConfig, DrawFlat, Pipeline,
-    PosTex, RenderBundle, Stage,
+use amethyst::{
+    prelude::*,
+    renderer::{
+        DisplayConfig, DrawFlat, Pipeline,
+        PosTex, RenderBundle, Stage,
+    },
+    core::{ 
+        transform::TransformBundle, 
+        frame_limiter::FrameRateLimitStrategy,
+    },
+
 };
-use amethyst::core::transform::TransformBundle;
+
+use std::time::Duration;
+
 
 fn main() -> amethyst::Result<()> {
 
@@ -45,7 +54,12 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with(systems::CursorSystem, "cursor_system", &["input_system"]); // Add this line
 
-    let mut game = Application::new("./", Board::new(15, 10), game_data)?;
+    let mut game = Application::build("./", Board::new(15,10))?
+        .with_frame_limit(
+            FrameRateLimitStrategy::Yield,
+            10,
+        ).build(game_data)?;
+    //let mut game = Application::new("./", Board::new(15, 10), game_data)?;
     game.run();
 
     Ok(())
